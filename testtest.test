@@ -10,7 +10,11 @@
 		<echo file="Components\PolicyTech.PPM.Core\Constants.cs" message="${contents}"/>
 
 		<!-- Build the Solution and Publish the WebSites -->
+<<<<<<< HEAD
 		<msbuild project="1.0.4.sln" target="Rebuild">
+=======
+		<msbuild project="1.0.3.sln" target="Rebuild">
+>>>>>>> parent of b1c471b... Update testtest.test
 			<property name="test" value="test" />
 			<property name="test" value="test" />
 			<property name="test" value="test" />
