@@ -19,11 +19,8 @@
 		<property name="test" value="test" />
 
 		<!--  test -->
-<<<<<<< HEAD
-		<msbuild project="1.1.18.sln" target="Rebuild">
-=======
-		<msbuild project="1.0.16.sln" target="Rebuild">
->>>>>>> parent of 8e65019... Update test.test
+		<msbuild project="Trunk.sln" target="Rebuild">
+
 			<property name="test" value="test" />
 			<property name="test" value="test" />
 			<property name="test" value="test" />
