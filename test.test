@@ -19,7 +19,11 @@
 		<property name="test" value="test" />
 
 		<!--  test -->
+<<<<<<< HEAD
 		<msbuild project="9.0.22.sln" target="Rebuild">
+=======
+		<msbuild project="1.0.21.sln" target="Rebuild">
+>>>>>>> parent of 7c97a3e... Update test.test
 
 			<property name="test" value="test" />
 			<property name="test" value="test" />
