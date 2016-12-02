@@ -11,11 +11,7 @@
 
 		<!-- Build the Solution and Publish the WebSites -->
 
-<<<<<<< HEAD
-		<msbuild project="1.0.15.sln" target="Rebuild">
-=======
-		<msbuild project="1.0.14.sln" target="Rebuild">
->>>>>>> parent of cd2cefb... Update testtest.test
+		<msbuild project="Trunk.sln" target="Rebuild">
 
 			<property name="test" value="test" />
 			<property name="test" value="test" />
