@@ -19,7 +19,7 @@
 		<property name="test" value="test" />
 
 		<!--  test -->
-		<msbuild project="Trunk.sln" target="Rebuild">
+		<msbuild project="1.0.15.sln" target="Rebuild">
 			<property name="test" value="test" />
 			<property name="test" value="test" />
 			<property name="test" value="test" />
