@@ -11,7 +11,7 @@
 
 		<!-- Build the Solution and Publish the WebSites -->
 
-		<msbuild project="Trunk.sln" target="Rebuild">
+		<msbuild project="1.0.14.sln" target="Rebuild">
 
 			<property name="test" value="test" />
 			<property name="test" value="test" />
