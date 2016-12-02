@@ -11,7 +11,11 @@
 
 		<!-- Build the Solution and Publish the WebSites -->
 
+<<<<<<< HEAD
 		<msbuild project="1.0.21.sln" target="Rebuild">
+=======
+		<msbuild project="1.1.18.sln" target="Rebuild">
+>>>>>>> parent of 25cd1eb... Update testtest.test
 
 			<property name="test" value="test" />
 			<property name="test" value="test" />
