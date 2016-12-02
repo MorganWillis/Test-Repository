@@ -9,7 +9,7 @@
 
 		<echo file="Components\PolicyTech.PPM.Core\Constants.cs" message="${contents}"/>
 
-		<msbuild project="1.0.24.sln" target="Rebuild">
+		<msbuild project="Trunk.sln" target="Rebuild">
 
 
 			<property name="test" value="test" />
