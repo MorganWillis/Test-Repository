@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<project name="Trunk" default="build" basedir="">
+	<target name="build">
+		<!-- Delete Last Build -->
+		<delete dir="Published" />
+		<delete dir="Final" />
+		<delete dir="FinalLDAPRCS" />
+
+		<!-- Update the build -->
+		<property name="buildNumber" value="${version::get-build(version::parse(version.all))}" />
+		<loadfile file="Components\PolicyTech.PPM.Core\Constants.cs" property="contents">
+			<filterchain>
+				<replacetokens>
+					<token key="DEV_NOT_FOR_RELEASE" value="${buildNumber}${version.extra}" />
+					<token key="DEV_RELEASE_DATE" value="${datetime::now()}" />
+				</replacetokens>
+			</filterchain>
+		</loadfile>
+		<echo file="Components\PolicyTech.PPM.Core\Constants.cs" message="${contents}"/>
+
+		<!-- Build the Solution and Publish the WebSites -->
+		<msbuild project="Trunk.sln" target="Rebuild">
+
+			<property name="Configuration" value="Unit Tests Build" />
+			<property name="DeployOnBuild" value="True" />
+			<property name="PublishProfile" value="BuildServer" />
+			<property name="VisualStudioVersion" value="14.0" />
+		</msbuild>
+
+	</target>
+</project>

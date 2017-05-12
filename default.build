@@ -1,0 +1,93 @@
+<?xml version="1.0"?>
+<project name="Trunk" default="build" basedir="">
+	<target name="build">
+		<!-- Delete Last Build -->
+		<delete dir="Published" />
+		<delete dir="Final" />
+		<delete dir="FinalLDAPRCS" />
+
+		<!-- Update the build -->
+		<property name="buildNumber" value="${version::get-build(version::parse(version.all))}" />
+		<loadfile file="Components\PolicyTech.PPM.Core\Constants.cs" property="contents">
+			<filterchain>
+				<replacetokens>
+					<token key="DEV_NOT_FOR_RELEASE" value="${buildNumber}${version.extra}" />
+					<token key="DEV_RELEASE_DATE" value="${datetime::now()}" />
+				</replacetokens>
+			</filterchain>
+		</loadfile>
+		<echo file="Components\PolicyTech.PPM.Core\Constants.cs" message="${contents}"/>
+
+		<!-- Build the Solution and Publish the WebSites -->
+		<msbuild project="Trunk.sln" target="Rebuild">
+			<property name="Configuration" value="Release" />
+			<property name="DeployOnBuild" value="True" />
+			<property name="PublishProfile" value="BuildServer" />
+			<property name="VisualStudioVersion" value="14.0" />
+		</msbuild>
+
+		<!-- Create Final Outut Directory -->
+		<mkdir dir="Final" />
+
+		<!-- Change debug=false on web.configs -->
+		<xmlpoke file="Published\bin\Web.Config" xpath="/configuration/system.web/compilation/@debug" value="false" />
+		<xmlpoke file="Published\ADauth\Web.Config" xpath="/configuration/system.web/compilation/@debug" value="false" />
+		<xmlpoke file="Published\LDAPRCS\Web.Config" xpath="/configuration/system.web/compilation/@debug" value="false" />
+		<xmlpoke file="Published\PolicyTech.Services.Internal.Host\Web.Config" xpath="/configuration/system.web/compilation/@debug" value="false" />
+		<xmlpoke file="Published\PolicyTech.Services.Internal.Anonymous\Web.Config" xpath="/configuration/system.web/compilation/@debug" value="false" />
+
+		<!-- Disable Tracing  -->
+		<xmlpoke file="Published\bin\Web.Config" xpath="/configuration/system.web/trace/@enabled" value="false" />
+		<xmlpoke file="Published\ADauth\Web.Config" xpath="/configuration/system.web/trace/@enabled" value="false" />
+		<xmlpoke file="Published\LDAPRCS\Web.Config" xpath="/configuration/system.web/trace/@enabled" value="false" />
+		<xmlpoke file="Published\PolicyTech.Services.Internal.Host\Web.Config" xpath="/configuration/system.web/trace/@enabled" value="false" />
+		<xmlpoke file="Published\PolicyTech.Services.Internal.Anonymous\Web.Config" xpath="/configuration/system.web/trace/@enabled" value="false" />
+
+		<!-- Copy the Web.Config.Template in to the final dir -->
+		<copy file="Published\bin\Web.Config" tofile="Published\Web.Config.Template" />
+
+		<mkdir dir="FinalLDAPRCS" />
+		<mkdir dir="FinalLDAPRCS\LDAPRCS" />
+
+		<copy todir="FinalLDAPRCS\LDAPRCS" includeemptydirs="true" overwrite="true" verbose="true">
+			<fileset basedir="Published\LDAPRCS\">
+				<include name="**/*" />
+			</fileset>
+		</copy>
+		<delete dir="Published\LDAPRCS" />
+
+		<copy file="FinalLDAPRCS\LDAPRCS\Web.Config" tofile="FinalLDAPRCS\Web.Config.Template" />
+		<delete file="FinalLDAPRCS\LDAPRCS\Web.Config" />
+
+		<!-- Create the LDAPRCS Zip -->
+		<exec program="${environment::get-variable('7ZipPath')}\7z.exe" workingdir="FinalLDAPRCS">
+			<arg line='a -tzip -y ..\Published\bin\includes\objects\ldaprcs.zip *'/>
+		</exec>
+
+		<!-- Create the Update Zip -->
+		<property name="versionstring" value="${string::replace(version.all,'.','_')}" />
+		<exec program="${environment::get-variable('7ZipPath')}\7z.exe" workingdir="Published">
+			<arg line='a -tzip -y ..\Final\update${versionstring}${version.extra}_SAAS.zip *'/>
+		</exec>
+
+		<delete dir="Published\PolicyTech.Services.Internal.Anonymous" />
+		<delete dir="Published\PolicyTech.Services.Internal.Host" />
+		<delete dir="Published\PolicyTech.PTAdmin.Web" />
+
+		<exec program="${environment::get-variable('7ZipPath')}\7z.exe" workingdir="Published">
+			<arg line='a -tzip -y ..\Final\update${versionstring}${version.extra}.zip *'/>
+		</exec>
+
+		<call target="Publish" />
+	</target>
+
+	<target name="Publish">
+		<property name="majorversion" value="${version::get-major(version::parse(version.all))}.${version::get-minor(version::parse(version.all))}.0" />
+		<mkdir dir="\\rxeisvcorpfps01.corp.navex01.com\shared\PTUpdates\PPM\ppm${majorversion}${version.extra}" />
+		<copy todir="\\rxeisvcorpfps01.corp.navex01.com\shared\PTUpdates\PPM\ppm${majorversion}${version.extra}">
+			<fileset basedir="Final">
+				<include name="*" />
+			</fileset>
+		</copy>
+	</target>
+</project>
