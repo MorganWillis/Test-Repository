@@ -1,3 +1,3 @@
 
-		private static string m_ProductMajorVersion = "10";
-		private static string m_ProductMinorVersion = "101";
+		private static string m_ProductMajorVersion = "9";
+		private static string m_ProductMinorVersion = "700";
