@@ -1,5 +1,4 @@
 
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost/PPM_1011/PTAdmin</IISUrl>
+          <IISUrl>http://localhost/PPM_Trunk/PTAdmin</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-      
