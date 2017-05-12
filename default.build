@@ -12,7 +12,7 @@
 		<echo file="Components\PolicyTech.PPM.Core\Constants.cs" message="${contents}"/>
 
 		<!-- Build the Solution and Publish the WebSites -->
-		<msbuild project="Trunk.sln" target="Rebuild">
+		<msbuild project="10.1.0.sln" target="Rebuild">
 			<property name="Configuration" value="Release" />
 			<property name="DeployOnBuild" value="True" />
 			<property name="PublishProfile" value="BuildServer" />
