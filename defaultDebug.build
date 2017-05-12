@@ -1,13 +1,4 @@
-<?xml version="1.0"?>
-<project name="Trunk" default="build" basedir="">
-	<target name="build">
-		<!-- Delete Last Build -->
-		<delete dir="Published" />
-		<delete dir="Final" />
-		<delete dir="FinalLDAPRCS" />
 
-		<!-- Update the build -->
-		<property name="buildNumber" value="${version::get-build(version::parse(version.all))}" />
 		<loadfile file="Components\PolicyTech.PPM.Core\Constants.cs" property="contents">
 			<filterchain>
 				<replacetokens>
